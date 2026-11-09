@@ -1,0 +1,6 @@
+{
+  "name": "AetherCut Studio - Professional Node-Based Video Editor",
+  "description": "Free cross-platform NLE combining a magnetic timeline with a professional node-based VFX compositing and color grading pipeline.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
