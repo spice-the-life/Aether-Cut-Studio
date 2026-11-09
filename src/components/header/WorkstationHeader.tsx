@@ -32,6 +32,7 @@ interface WorkstationHeaderProps {
   onToggleBrowser?: () => void;
   isInspectorOpen?: boolean;
   onToggleInspector?: () => void;
+  onOpenDesktopRelease?: () => void;
 }
 
 export const WorkstationHeader: React.FC<WorkstationHeaderProps> = ({
@@ -46,6 +47,7 @@ export const WorkstationHeader: React.FC<WorkstationHeaderProps> = ({
   onToggleBrowser,
   isInspectorOpen = false,
   onToggleInspector,
+  onOpenDesktopRelease,
 }) => {
   return (
     <header className="flex items-center justify-between gap-4 px-4 py-1.5 border-b border-[#21232d] bg-[#14151b] select-none shrink-0 z-30 h-11">
@@ -226,6 +228,18 @@ export const WorkstationHeader: React.FC<WorkstationHeaderProps> = ({
             <Keyboard className="w-3.5 h-3.5" />
           </button>
         </div>
+
+        {/* Windows .exe / GitHub Release (Version 1.0) */}
+        {onOpenDesktopRelease && (
+          <button
+            onClick={onOpenDesktopRelease}
+            className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 text-xs font-semibold text-slate-200 hover:text-white bg-[#1a1c26] hover:bg-[#222534] border border-[#2c3044] rounded-md transition-colors whitespace-nowrap shadow-xs"
+            title="AetherCut Studio Version 1.0 (.exe for GitHub)"
+          >
+            <Monitor className="w-3.5 h-3.5 text-[#0a84ff]" />
+            <span>v1.0 .exe</span>
+          </button>
+        )}
 
         {/* Share / Export (Iconic Apple Final Cut Pro Share Button) */}
         <button

@@ -30,6 +30,7 @@ import { InspectorPanel } from './components/inspector/InspectorPanel';
 import { VideoScopes } from './components/scopes/VideoScopes';
 import { DeliverModal } from './components/deliver/DeliverModal';
 import { ShortcutsModal } from './components/shortcuts/ShortcutsModal';
+import { DesktopReleaseModal } from './components/desktop/DesktopReleaseModal';
 
 export default function App() {
   // Active Workspace: Edit / Transitions / Nodes / Color / Audio / Deliver
@@ -275,6 +276,7 @@ export default function App() {
   const [isScopesOpen, setIsScopesOpen] = useState(false);
   const [isDeliverOpen, setIsDeliverOpen] = useState(false);
   const [isShortcutsOpen, setIsShortcutsOpen] = useState(false);
+  const [isDesktopReleaseOpen, setIsDesktopReleaseOpen] = useState(false);
 
   // Viewer Canvases
   const viewer1CanvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -723,6 +725,7 @@ export default function App() {
         onSelectWorkspace={setWorkspace}
         onOpenDeliver={() => setIsDeliverOpen(true)}
         onOpenShortcuts={() => setIsShortcutsOpen(true)}
+        onOpenDesktopRelease={() => setIsDesktopReleaseOpen(true)}
         os={os}
         playhead={playhead}
         fps={24}
@@ -1006,6 +1009,12 @@ export default function App() {
         onClose={() => setIsShortcutsOpen(false)}
         os={os}
         onSetOs={setOs}
+      />
+
+      {/* Desktop .exe Release Modal (Version 1.0) */}
+      <DesktopReleaseModal
+        isOpen={isDesktopReleaseOpen}
+        onClose={() => setIsDesktopReleaseOpen(false)}
       />
     </div>
   );
