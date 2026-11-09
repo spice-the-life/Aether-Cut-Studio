@@ -31,6 +31,7 @@ import { VideoScopes } from './components/scopes/VideoScopes';
 import { DeliverModal } from './components/deliver/DeliverModal';
 import { ShortcutsModal } from './components/shortcuts/ShortcutsModal';
 import { DesktopReleaseModal } from './components/desktop/DesktopReleaseModal';
+import { InstallersModal } from './components/installers/InstallersModal';
 
 export default function App() {
   // Active Workspace: Edit / Transitions / Nodes / Color / Audio / Deliver
@@ -277,6 +278,7 @@ export default function App() {
   const [isDeliverOpen, setIsDeliverOpen] = useState(false);
   const [isShortcutsOpen, setIsShortcutsOpen] = useState(false);
   const [isDesktopReleaseOpen, setIsDesktopReleaseOpen] = useState(false);
+  const [isInstallersOpen, setIsInstallersOpen] = useState(false);
 
   // Viewer Canvases
   const viewer1CanvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -726,6 +728,7 @@ export default function App() {
         onOpenDeliver={() => setIsDeliverOpen(true)}
         onOpenShortcuts={() => setIsShortcutsOpen(true)}
         onOpenDesktopRelease={() => setIsDesktopReleaseOpen(true)}
+        onOpenInstallers={() => setIsInstallersOpen(true)}
         os={os}
         playhead={playhead}
         fps={24}
@@ -1015,6 +1018,12 @@ export default function App() {
       <DesktopReleaseModal
         isOpen={isDesktopReleaseOpen}
         onClose={() => setIsDesktopReleaseOpen(false)}
+      />
+
+      {/* Installers & Releases Modal (.exe & .app/.dmg) */}
+      <InstallersModal
+        isOpen={isInstallersOpen}
+        onClose={() => setIsInstallersOpen(false)}
       />
     </div>
   );

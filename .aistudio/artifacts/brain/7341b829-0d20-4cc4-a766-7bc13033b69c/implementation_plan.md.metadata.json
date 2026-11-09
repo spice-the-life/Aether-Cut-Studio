@@ -1,6 +1,6 @@
 {
-  "summary":  "Complete implementation plan to configure AetherCut Studio as a native Windows .exe desktop application with automated GitHub Actions compilation and release workflow for Version 1.0.",
-  "updatedAt":  "2026-11-09T23:38:33.118285531Z",
+  "summary":  "Implementation plan to create the Installers folder containing Windows .exe and macOS .app/.dmg packages across Version 1.0 and Version 0.9 Beta, paired with an in-app 1-click Installers download browser.",
+  "updatedAt":  "2026-11-09T23:50:56.069756838Z",
   "requestFeedback":  true,
   "userFacing":  true
 }

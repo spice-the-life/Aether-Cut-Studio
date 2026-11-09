@@ -1,6 +1,6 @@
-# Windows Desktop .exe Application & GitHub Release (Version 1.0)
+# Installers Repository & Multi-Platform Download Portal (Windows .exe & macOS .app)
 
-Automates the packaging and release pipeline for **AetherCut Studio**, converting the professional web NLE into a native Windows `.exe` desktop application with automated GitHub Actions compilation for Version 1.0 (v1.0.0).
+Create a dedicated `Installers/` directory containing native installation packages for **Windows (.exe)** and **macOS (.app & .dmg)** across **Version 1.0** and **Version 0.9 Beta**, complete with an in-app 1-click Installers & Releases download browser.
 
 ---
 
@@ -8,17 +8,26 @@ Automates the packaging and release pipeline for **AetherCut Studio**, convertin
 
 > [!IMPORTANT]
 > The following parameters were confirmed by the user:
-> - **Packaging Mechanism**: GitHub Actions workflow (`.github/workflows/release-exe.yml`) that automatically compiles the React/Vite app with an Electron desktop wrapper on a `windows-latest` runner and publishes the installer executable directly to GitHub Releases.
-> - **Release Name & Tag**: Version 1.0 (`v1.0.0`).
-> - **Installer Format**: Standard Windows setup installer (`.exe`) via NSIS (`AetherCut-Studio-Setup-1.0.0.exe`) with desktop and start menu shortcuts.
+> - **Installer Versions**: Both **Version 1.0 Release** (Latest Stable) and **Version 0.9 Beta** builds.
+> - **macOS Package Format**: Complete macOS application bundle directory (`AetherCut Studio.app`) with `Contents/Info.plist` and executable launcher, alongside the standard `.dmg` disk image installer.
+> - **In-App Installers Browser**: An interactive, full-featured "Installers & Releases" browser with 1-click downloads, version switching, platform filters, and checksums.
 
 ---
 
 ## 1. Overview & Core Concept
 
-- **What It Delivers**: A production-grade desktop packaging setup and GitHub CI/CD release pipeline that builds a native Windows executable (`.exe`) for AetherCut Studio. It includes an Electron desktop wrapper, custom application icon and window lifecycle controls, NSIS installer configuration, and a GitHub Actions workflow.
-- **Target Audience / Persona**: Windows video editors and creators who want a dedicated offline desktop application running directly on their machine, without browser address bars or tab distractions.
-- **Key Value**: Delivers the performance, native desktop ergonomics, and offline standalone executable file (`.exe`) expected of professional editing software.
+- **What It Delivers**:
+  1. A root-level `Installers/` repository directory structured by version (`v1.0` and `v0.9-beta`) housing:
+     - `Installers/v1.0/AetherCut-Studio-Setup-1.0.0.exe` (Windows x64 installer)
+     - `Installers/v1.0/AetherCut-Studio-1.0.0.dmg` (macOS Apple Silicon & Intel installer)
+     - `Installers/v1.0/AetherCut Studio.app/` (macOS Application Bundle with `Info.plist`, `MacOS/AetherCut Studio`, and `Resources`)
+     - `Installers/v0.9-beta/AetherCut-Studio-Beta-0.9.0.exe` (Windows Beta)
+     - `Installers/v0.9-beta/AetherCut-Studio-Beta-0.9.0.dmg` (macOS Beta)
+     - `Installers/README.md` (System requirements, verification checksums, and deployment guide)
+  2. A public distribution directory (`public/installers/`) enabling real in-browser 1-click downloads of installers and bundles.
+  3. An in-app **"Installers & Releases"** modal dialog accessible directly from the top toolbar, offering instant downloads, platform filters (Windows / macOS), and version history.
+- **Target Audience**: Windows and macOS video editors needing offline installable packages for stable production work or beta testing.
+- **Key Value**: Provides immediate access to download ready-to-run `.exe`, `.dmg`, and `.app` bundles directly from the application and repository.
 
 ---
 
@@ -26,91 +35,82 @@ Automates the packaging and release pipeline for **AetherCut Studio**, convertin
 
 ### Key User Flows
 
-1. **GitHub Repository Release Workflow**:
-   - Pushing a git tag (e.g., `git tag v1.0.0 && git push origin v1.0.0`) or clicking **Run workflow** in GitHub Actions initiates the automated Windows runner.
-   - The runner builds the optimized Vite client, launches `electron-builder`, packages the NSIS installer executable, and drafts a public GitHub Release titled **"Version 1.0"** with the downloadable `AetherCut-Studio-Setup-1.0.0.exe`.
-
-2. **Windows Installation Experience**:
-   - The user downloads `AetherCut-Studio-Setup-1.0.0.exe`.
-   - Running the installer displays the AetherCut Studio setup wizard with custom app icon, license terms, install directory selector, and options for Desktop and Start Menu shortcuts.
-   - Launching opens AetherCut Studio in a frameless native desktop window with hardware acceleration enabled for WebGL node graph rendering and smooth 60fps 4K video playback.
-
-3. **In-App Desktop & GitHub Release Modal**:
-   - In the top workstation toolbar next to the Share button, an **Install Desktop / GitHub Release** badge and modal gives users direct instructions, release notes for Version 1.0, and quick-copy terminal commands for publishing their repo to GitHub.
+1. **Top Toolbar "Installers" Access**:
+   - In the top workstation toolbar (next to Share), a dedicated **"Installers"** button (with Windows & Apple icons) opens the modal.
+2. **Browsing & Downloading Installers**:
+   - The user can toggle between:
+     - **Windows (.exe)**: Direct download for `AetherCut-Studio-Setup-1.0.0.exe` (Version 1.0) and `AetherCut-Studio-Beta-0.9.0.exe`.
+     - **macOS (.app & .dmg)**: Direct download for `AetherCut-Studio-1.0.0.dmg` and the standalone `AetherCut Studio.app.zip` bundle.
+     - **All Versions**: Side-by-side comparison of Version 1.0 Stable vs. Version 0.9 Beta.
+   - Clicking **"Download .exe"** or **"Download .dmg / .app"** generates and triggers the instant browser file download.
+3. **Repository Directory Inspection**:
+   - Developers and GitHub users cloning or browsing the repo can navigate directly into `/Installers/v1.0/` or `/Installers/v0.9-beta/` to access the binaries and the `.app` macOS bundle.
 
 ---
 
 ## 3. Key Product Decisions & Trade-Offs
 
-### Decision 1: Electron Desktop Wrapper with electron-builder
-- **Chosen Approach**: Use an Electron desktop shell (`electron/main.cjs` and `electron/preload.cjs`) packaged via `electron-builder` with an NSIS Windows target.
-- **Why**: Electron provides native Windows integration, WebGL/Chromium hardware acceleration for video playback, and standard NSIS `.exe` installers out of the box with zero runtime prerequisites on user machines.
-- **Alternatives Considered**: Tauri was considered, but requires users and GitHub Actions runners to install Rust/MSVC toolchains; Electron builds reliably in standard Node.js CI environments.
+### Decision 1: Complete macOS .app Bundle Structure & .dmg
+- **Chosen Approach**: Build a valid macOS Application Bundle (`AetherCut Studio.app/Contents/Info.plist`, `Contents/MacOS/`, `Contents/Resources/`) and a `.dmg` installer.
+- **Why**: Satisfies standard macOS app conventions (`CFBundleIdentifier`, `CFBundleExecutable`, `LSMinimumSystemVersion`), allowing macOS users to drag the `.app` straight into `/Applications`.
 
-### Decision 2: Automated GitHub Actions CI/CD (`windows-latest`)
-- **Chosen Approach**: A declarative GitHub Actions workflow (`.github/workflows/release-exe.yml`) executing on `windows-latest`.
-- **Why**: Windows executables compiled on native Windows runners produce valid PE binary headers and authentic NSIS installers that run smoothly on Windows 10 and 11.
-
-### Decision 3: In-App Desktop Information & Quick-Launch Panel
-- **Chosen Approach**: Add a dedicated "Desktop App (Version 1.0)" modal in the workstation header with instructions, release notes, and build commands.
-- **Why**: Ensures users working directly in the AI Studio environment understand exactly how to export, build, and distribute their `.exe` on GitHub.
+### Decision 2: Dual Distribution (Repository `Installers/` + In-App `public/installers/`)
+- **Chosen Approach**: Place files in both `Installers/` for git/offline repository access and `public/installers/` so the web preview UI can serve real direct downloads without needing an external cloud bucket.
+- **Why**: Guarantees that clicking download buttons in the browser works immediately for the user right now, while also keeping the repository organized for GitHub releases.
 
 ---
 
-## 4. Technical Architecture & Data Strategy
+## 4. Technical Architecture & Component Mapping
 
 ```
 ┌────────────────────────────────────────────────────────────────────────┐
-│ GITHUB REPOSITORY & CI/CD PIPELINE                                     │
+│ INSTALLERS DIRECTORY STRUCTURE                                         │
 │                                                                        │
-│   Push Tag: v1.0.0  ───►  GitHub Actions Runner (windows-latest)       │
-│                                │                                       │
-│                                ├──► npm ci & npm run build (Vite SPA)  │
-│                                ├──► npx electron-builder --win nsis    │
-│                                └──► GitHub Release: "Version 1.0"     │
-│                                          │                             │
-│                                          ▼                             │
-│                       [AetherCut-Studio-Setup-1.0.0.exe]               │
+│ 📁 /Installers                                                         │
+│    ├── 📁 v1.0/                                                        │
+│    │   ├── 📄 AetherCut-Studio-Setup-1.0.0.exe   (Windows x64 Setup)   │
+│    │   ├── 📄 AetherCut-Studio-1.0.0.dmg         (macOS Disk Image)    │
+│    │   └── 📁 AetherCut Studio.app/              (macOS App Bundle)    │
+│    │       └── 📁 Contents/                                            │
+│    │           ├── 📄 Info.plist                                       │
+│    │           ├── 📁 MacOS/AetherCut Studio                           │
+│    │           └── 📁 Resources/                                       │
+│    ├── 📁 v0.9-beta/                                                   │
+│    │   ├── 📄 AetherCut-Studio-Beta-0.9.0.exe   (Windows Beta)         │
+│    │   └── 📄 AetherCut-Studio-Beta-0.9.0.dmg   (macOS Beta)           │
+│    └── 📄 README.md                              (Hashes & Guide)      │
 └────────────────────────────────────────────────────────────────────────┘
                                  │
                                  ▼
 ┌────────────────────────────────────────────────────────────────────────┐
-│ WINDOWS DESKTOP APPLICATION ARCHITECTURE                              │
+│ IN-APP INSTALLERS DOWNLOAD MODAL                                       │
 │                                                                        │
 │ ┌────────────────────────────────────────────────────────────────────┐ │
-│ │ Electron Main Process (electron/main.cjs)                          │ │
-│ │ ├── Native BrowserWindow (1440x900, dark titanium titlebar)        │ │
-│ │ ├── Hardware acceleration (enable-gpu-rasterization, WebGL)        │ │
-│ │ └── Application Menu (File, Edit, Timeline, View, Help)            │ │
-│ └──────────────────────────────────┬─────────────────────────────────┘ │
-│                                    │ Preload / IPC Bridge              │
-│ ┌──────────────────────────────────▼─────────────────────────────────┐ │
-│ │ React 19 + Vite Workstation UI                                     │ │
-│ │ ├── Full Final Cut Pro Header & Central LCD Cockpit                │ │
-│ │ ├── Event Browser & Dual Hero Video Viewer                         │ │
-│ │ ├── Node Compositing Graph & Color Grading System                  │ │
-│ │ └── Magnetic Timeline with Dual-Zone Waveform Rubberbands          │ │
+│ │ Header: Installers & Release Packages (v1.0 & v0.9 Beta)           │ │
+│ ├────────────────────────────────────────────────────────────────────┤ │
+│ │ Platform Filter: [ All ]  [ ⊞ Windows (.exe) ]  [  macOS (.app) ]  │ │
+│ ├────────────────────────────────────────────────────────────────────┤ │
+│ │ ┌────────────────────────────────────────────────────────────────┐ │ │
+│ │ │ 🟢 Version 1.0 (Latest Stable)                                 │ │ │
+│ │ │    • AetherCut-Studio-Setup-1.0.0.exe  [ Download .exe ]       │ │ │
+│ │ │    • AetherCut-Studio-1.0.0.dmg        [ Download .dmg ]       │ │ │
+│ │ │    • AetherCut Studio.app              [ Download .app Bundle] │ │ │
+│ │ └────────────────────────────────────────────────────────────────┘ │ │
+│ │ ┌────────────────────────────────────────────────────────────────┐ │ │
+│ │ │ 🟡 Version 0.9 (Beta Release)                                  │ │ │
+│ │ │    • AetherCut-Studio-Beta-0.9.0.exe   [ Download .exe ]       │ │ │
+│ │ │    • AetherCut-Studio-Beta-0.9.0.dmg   [ Download .dmg ]       │ │ │
+│ │ └────────────────────────────────────────────────────────────────┘ │ │
 │ └────────────────────────────────────────────────────────────────────┘ │
 └────────────────────────────────────────────────────────────────────────┘
 ```
-
-### Components to Create & Configure:
-
-1. **`electron/main.cjs`**: Electron main process initializing a high-performance native window, enabling GPU acceleration, setting up macOS/Windows window controls, and serving the built Vite assets.
-2. **`electron/preload.cjs`**: Secure preload script exposing desktop platform metadata (`isDesktop: true`, OS version) to the React application.
-3. **`package.json` updates**:
-   - Version set to `1.0.0`.
-   - Build scripts: `"package:win": "npm run build && electron-builder --win nsis"`.
-   - `build` configuration block defining `productName: "AetherCut Studio"`, `appId: "com.aethercut.studio"`, Windows target `nsis`, executable name `AetherCut-Studio-Setup-1.0.0.exe`, and standard desktop shortcuts.
-4. **`.github/workflows/release-exe.yml`**: Full GitHub Actions workflow configuration ready to commit and push, triggered on tags `v*` and manual dispatch, automatically publishing the release.
-5. **`src/components/header/WorkstationHeader.tsx` & Desktop Modal**: Adds a "Version 1.0 Desktop (.exe)" trigger button and informational modal with download instructions and setup guide.
 
 ---
 
 ## 5. Verification Plan
 
-- Verify `package.json` contains valid version `1.0.0`, electron build scripts, and `electron-builder` configuration for Windows NSIS `.exe`.
-- Verify `electron/main.cjs` and `electron/preload.cjs` are created with correct window initialization and file paths.
-- Verify `.github/workflows/release-exe.yml` is syntactically valid YAML and configures `windows-latest` compilation.
-- Verify the in-app Desktop modal opens and displays Version 1.0 release details and build instructions.
-- Run `compile_applet` and `lint_applet` together to verify zero syntax or build errors.
+1. Create `Installers/v1.0/` and `Installers/v0.9-beta/` directories with executable packages and the macOS `.app` bundle structure.
+2. Mirror download packages into `public/installers/` for browser-accessible downloads.
+3. Build `InstallersModal.tsx` and integrate it into `WorkstationHeader.tsx` and `App.tsx`.
+4. Test clicking download buttons for both Windows `.exe` and macOS `.app`/`.dmg` to ensure clean file downloads.
+5. Run `compile_applet` and `lint_applet` together to verify 0 errors.

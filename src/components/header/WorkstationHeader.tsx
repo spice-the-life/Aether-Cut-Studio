@@ -18,6 +18,7 @@ import {
   Sliders,
   Palette,
   Keyboard,
+  FolderArchive,
 } from 'lucide-react';
 
 interface WorkstationHeaderProps {
@@ -33,6 +34,7 @@ interface WorkstationHeaderProps {
   isInspectorOpen?: boolean;
   onToggleInspector?: () => void;
   onOpenDesktopRelease?: () => void;
+  onOpenInstallers?: () => void;
 }
 
 export const WorkstationHeader: React.FC<WorkstationHeaderProps> = ({
@@ -48,6 +50,7 @@ export const WorkstationHeader: React.FC<WorkstationHeaderProps> = ({
   isInspectorOpen = false,
   onToggleInspector,
   onOpenDesktopRelease,
+  onOpenInstallers,
 }) => {
   return (
     <header className="flex items-center justify-between gap-4 px-4 py-1.5 border-b border-[#21232d] bg-[#14151b] select-none shrink-0 z-30 h-11">
@@ -238,6 +241,18 @@ export const WorkstationHeader: React.FC<WorkstationHeaderProps> = ({
           >
             <Monitor className="w-3.5 h-3.5 text-[#0a84ff]" />
             <span>v1.0 .exe</span>
+          </button>
+        )}
+
+        {/* Installers & Releases Folder (.exe & .app/.dmg) */}
+        {onOpenInstallers && (
+          <button
+            onClick={onOpenInstallers}
+            className="flex items-center gap-1.5 px-2.5 py-1 text-xs font-semibold text-slate-200 hover:text-white bg-[#1a1c26] hover:bg-[#222534] border border-[#2c3044] rounded-md transition-colors whitespace-nowrap shadow-xs"
+            title="Open Installers Folder (.exe & .app/.dmg for Windows & macOS)"
+          >
+            <FolderArchive className="w-3.5 h-3.5 text-emerald-400" />
+            <span>Installers</span>
           </button>
         )}
 

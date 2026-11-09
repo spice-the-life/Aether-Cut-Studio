@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+# AetherCut Studio v1.0 macOS Desktop Launcher
+DIR="$(cd "$(dirname "$0")" && pwd)"
+echo "Launching AetherCut Studio Version 1.0..."
+if command -v electron >/dev/null 2>&1; then
+  electron "$DIR/../../../../../"
+else
+  open "http://localhost:3000" || open "https://ais-pre-2qvmmu72gwpzslfpemhobj-38638488375.us-east1.run.app"
+fi
