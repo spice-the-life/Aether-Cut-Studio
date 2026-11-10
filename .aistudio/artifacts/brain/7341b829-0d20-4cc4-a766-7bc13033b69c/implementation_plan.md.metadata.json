@@ -1,6 +1,6 @@
 {
-  "summary":  "Implementation plan for Version 1.1 (v1.1.0) release containing .dmg, .app, and .exe installer packages, an all-in-one bundled archive, and an updated in-app download browser.",
-  "updatedAt":  "2026-11-10T00:01:55.768063791Z",
+  "summary":  "Implementation plan to fix the Windows executable failure by compiling a genuine 64-bit Windows PE NSIS setup wizard installer (.exe) directly in the app, replacing the invalid binary stub.",
+  "updatedAt":  "2026-11-10T14:42:18.681416916Z",
   "requestFeedback":  true,
   "userFacing":  true
 }
