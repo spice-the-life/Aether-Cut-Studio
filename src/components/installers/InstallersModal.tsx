@@ -13,6 +13,8 @@ import {
   PackageCheck,
   HardDrive,
   FileBox,
+  Layers,
+  Archive,
 } from 'lucide-react';
 
 interface InstallersModalProps {
@@ -25,9 +27,9 @@ type PlatformFilter = 'all' | 'windows' | 'macos';
 interface InstallerItem {
   id: string;
   name: string;
-  version: '1.0' | '0.9-beta';
-  platform: 'windows' | 'macos';
-  format: '.exe' | '.dmg' | '.app';
+  version: '1.1' | '1.0' | '0.9-beta';
+  platform: 'windows' | 'macos' | 'all';
+  format: '.exe' | '.dmg' | '.app' | '.tar.gz';
   size: string;
   desc: string;
   relPath: string;
@@ -37,45 +39,89 @@ interface InstallerItem {
 }
 
 const INSTALLER_ITEMS: InstallerItem[] = [
+  // Version 1.1 (New Release)
   {
-    id: 'win-v1',
+    id: 'win-v11',
+    name: 'AetherCut-Studio-Setup-1.1.0.exe',
+    version: '1.1',
+    platform: 'windows',
+    format: '.exe',
+    size: '64.3 MB',
+    desc: 'Windows 10 / 11 (64-bit) NSIS setup wizard with Desktop & Start Menu shortcuts',
+    relPath: 'Installers/v1.1/AetherCut-Studio-Setup-1.1.0.exe',
+    downloadUrl: '/installers/v1.1/AetherCut-Studio-Setup-1.1.0.exe',
+    tag: 'v1.1 Latest',
+    tagColor: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30',
+  },
+  {
+    id: 'mac-dmg-v11',
+    name: 'AetherCut-Studio-1.1.0.dmg',
+    version: '1.1',
+    platform: 'macos',
+    format: '.dmg',
+    size: '72.1 MB',
+    desc: 'macOS Disk Image (Apple Silicon M1/M2/M3/M4 & Intel 64-bit) drag-and-drop installer',
+    relPath: 'Installers/v1.1/AetherCut-Studio-1.1.0.dmg',
+    downloadUrl: '/installers/v1.1/AetherCut-Studio-1.1.0.dmg',
+    tag: 'v1.1 Latest',
+    tagColor: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30',
+  },
+  {
+    id: 'mac-app-v11',
+    name: 'AetherCut Studio.app',
+    version: '1.1',
+    platform: 'macos',
+    format: '.app',
+    size: '68.5 MB',
+    desc: 'Complete standalone macOS Application Bundle with Info.plist v1.1.0 & native launcher',
+    relPath: 'Installers/v1.1/AetherCut Studio.app',
+    downloadUrl: '/installers/v1.1/AetherCut-Studio-1.1.0-macOS.app.tar.gz',
+    tag: 'App Bundle',
+    tagColor: 'bg-blue-500/20 text-blue-400 border-blue-500/30',
+  },
+  {
+    id: 'bundle-v11',
+    name: 'AetherCut-Studio-v1.1.0-Complete-Installers.tar.gz',
+    version: '1.1',
+    platform: 'all',
+    format: '.tar.gz',
+    size: '198.4 MB',
+    desc: 'All-in-One Multi-Platform Package containing .exe (Windows), .dmg (macOS), and .app bundle',
+    relPath: 'Installers/v1.1/AetherCut-Studio-v1.1.0-Complete-Installers.tar.gz',
+    downloadUrl: '/installers/v1.1/AetherCut-Studio-v1.1.0-Complete-Installers.tar.gz',
+    tag: 'Complete Bundle',
+    tagColor: 'bg-purple-500/20 text-purple-300 border-purple-500/30',
+  },
+
+  // Version 1.0 (Previous Stable)
+  {
+    id: 'win-v10',
     name: 'AetherCut-Studio-Setup-1.0.0.exe',
     version: '1.0',
     platform: 'windows',
     format: '.exe',
     size: '64.3 MB',
-    desc: 'Windows 10 / 11 (64-bit) NSIS setup wizard with Desktop & Start Menu shortcuts',
+    desc: 'Windows 10 / 11 (64-bit) NSIS setup wizard (Version 1.0)',
     relPath: 'Installers/v1.0/AetherCut-Studio-Setup-1.0.0.exe',
     downloadUrl: '/installers/v1.0/AetherCut-Studio-Setup-1.0.0.exe',
-    tag: 'Latest Stable',
-    tagColor: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30',
+    tag: 'Version 1.0',
+    tagColor: 'bg-slate-600/20 text-slate-300 border-slate-600/30',
   },
   {
-    id: 'mac-dmg-v1',
+    id: 'mac-dmg-v10',
     name: 'AetherCut-Studio-1.0.0.dmg',
     version: '1.0',
     platform: 'macos',
     format: '.dmg',
     size: '72.1 MB',
-    desc: 'macOS Disk Image (Apple Silicon M1/M2/M3/M4 & Intel 64-bit) drag-and-drop installer',
+    desc: 'macOS Disk Image installer (Version 1.0)',
     relPath: 'Installers/v1.0/AetherCut-Studio-1.0.0.dmg',
     downloadUrl: '/installers/v1.0/AetherCut-Studio-1.0.0.dmg',
-    tag: 'Latest Stable',
-    tagColor: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30',
+    tag: 'Version 1.0',
+    tagColor: 'bg-slate-600/20 text-slate-300 border-slate-600/30',
   },
-  {
-    id: 'mac-app-v1',
-    name: 'AetherCut Studio.app',
-    version: '1.0',
-    platform: 'macos',
-    format: '.app',
-    size: '68.5 MB',
-    desc: 'Complete standalone macOS Application Bundle with Info.plist & native launcher',
-    relPath: 'Installers/v1.0/AetherCut Studio.app',
-    downloadUrl: '/installers/v1.0/AetherCut-Studio-1.0.0-macOS.app.tar.gz',
-    tag: 'App Bundle',
-    tagColor: 'bg-blue-500/20 text-blue-400 border-blue-500/30',
-  },
+
+  // Version 0.9 Beta
   {
     id: 'win-v09',
     name: 'AetherCut-Studio-Beta-0.9.0.exe',
@@ -106,7 +152,7 @@ const INSTALLER_ITEMS: InstallerItem[] = [
 
 export const InstallersModal: React.FC<InstallersModalProps> = ({ isOpen, onClose }) => {
   const [platformFilter, setPlatformFilter] = useState<PlatformFilter>('all');
-  const [selectedVersion, setSelectedVersion] = useState<'all' | '1.0' | '0.9-beta'>('all');
+  const [selectedVersion, setSelectedVersion] = useState<'all' | '1.1' | '1.0' | '0.9-beta'>('1.1');
   const [copiedId, setCopiedId] = useState<string | null>(null);
 
   if (!isOpen) return null;
@@ -118,7 +164,9 @@ export const InstallersModal: React.FC<InstallersModalProps> = ({ isOpen, onClos
   };
 
   const filteredItems = INSTALLER_ITEMS.filter((item) => {
-    if (platformFilter !== 'all' && item.platform !== platformFilter) return false;
+    if (platformFilter !== 'all' && item.platform !== 'all' && item.platform !== platformFilter) {
+      return false;
+    }
     if (selectedVersion !== 'all' && item.version !== selectedVersion) return false;
     return true;
   });
@@ -135,14 +183,17 @@ export const InstallersModal: React.FC<InstallersModalProps> = ({ isOpen, onClos
             <div>
               <div className="flex items-center gap-2">
                 <h2 className="text-sm font-bold text-white tracking-tight">
-                  Installers Repository
+                  AetherCut Studio · Version 1.1 Release
                 </h2>
+                <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                  New Release (v1.1)
+                </span>
                 <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-[#1e2334] text-blue-300 border border-[#2b3550]">
-                  /Installers
+                  /Installers/v1.1
                 </span>
               </div>
               <p className="text-[11px] text-slate-400">
-                Official Windows (.exe) & macOS (.app / .dmg) packages across versions
+                Official releases for Windows (.exe), macOS (.dmg & .app), and Complete All-in-One Bundle
               </p>
             </div>
           </div>
@@ -196,24 +247,24 @@ export const InstallersModal: React.FC<InstallersModalProps> = ({ isOpen, onClos
           {/* Version Filter Pills */}
           <div className="flex items-center gap-1">
             <button
-              onClick={() => setSelectedVersion('all')}
-              className={`px-2 py-0.5 rounded text-[11px] font-medium border transition-colors ${
-                selectedVersion === 'all'
-                  ? 'bg-[#1e2334] text-white border-[#344062]'
+              onClick={() => setSelectedVersion('1.1')}
+              className={`px-2 py-0.5 rounded text-[11px] font-semibold border transition-colors ${
+                selectedVersion === '1.1'
+                  ? 'bg-[#182a20] text-emerald-300 border-[#254d35]'
                   : 'text-slate-400 border-transparent hover:text-white'
               }`}
             >
-              All Versions
+              v1.1 (New Release)
             </button>
             <button
               onClick={() => setSelectedVersion('1.0')}
               className={`px-2 py-0.5 rounded text-[11px] font-medium border transition-colors ${
                 selectedVersion === '1.0'
-                  ? 'bg-[#182a20] text-emerald-300 border-[#254d35]'
+                  ? 'bg-[#1e2334] text-white border-[#344062]'
                   : 'text-slate-400 border-transparent hover:text-white'
               }`}
             >
-              Version 1.0 (Stable)
+              v1.0 (Stable)
             </button>
             <button
               onClick={() => setSelectedVersion('0.9-beta')}
@@ -223,7 +274,17 @@ export const InstallersModal: React.FC<InstallersModalProps> = ({ isOpen, onClos
                   : 'text-slate-400 border-transparent hover:text-white'
               }`}
             >
-              Version 0.9 (Beta)
+              v0.9 (Beta)
+            </button>
+            <button
+              onClick={() => setSelectedVersion('all')}
+              className={`px-2 py-0.5 rounded text-[11px] font-medium border transition-colors ${
+                selectedVersion === 'all'
+                  ? 'bg-[#1e2334] text-white border-[#344062]'
+                  : 'text-slate-400 border-transparent hover:text-white'
+              }`}
+            >
+              All Versions
             </button>
           </div>
         </div>
@@ -233,7 +294,11 @@ export const InstallersModal: React.FC<InstallersModalProps> = ({ isOpen, onClos
           {filteredItems.map((item) => (
             <div
               key={item.id}
-              className="p-3.5 rounded-lg bg-[#0e1017] border border-[#222533] hover:border-[#2d3246] transition-colors flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+              className={`p-3.5 rounded-lg border transition-colors flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${
+                item.version === '1.1'
+                  ? 'bg-[#0f121b] border-[#293248] hover:border-[#3b486b]'
+                  : 'bg-[#0e1017] border-[#222533] hover:border-[#2d3246]'
+              }`}
             >
               {/* File Info */}
               <div className="flex items-start gap-3 min-w-0">
@@ -241,13 +306,17 @@ export const InstallersModal: React.FC<InstallersModalProps> = ({ isOpen, onClos
                   className={`p-2 rounded-md shrink-0 mt-0.5 ${
                     item.platform === 'windows'
                       ? 'bg-blue-500/15 text-blue-400 border border-blue-500/30'
-                      : 'bg-slate-700/30 text-slate-200 border border-slate-600/40'
+                      : item.platform === 'macos'
+                      ? 'bg-slate-700/30 text-slate-200 border border-slate-600/40'
+                      : 'bg-purple-500/15 text-purple-300 border border-purple-500/30'
                   }`}
                 >
                   {item.platform === 'windows' ? (
                     <span className="font-bold text-sm block leading-none">⊞</span>
-                  ) : (
+                  ) : item.platform === 'macos' ? (
                     <span className="font-bold text-sm block leading-none"></span>
+                  ) : (
+                    <Archive className="w-4 h-4" />
                   )}
                 </div>
 
@@ -292,10 +361,18 @@ export const InstallersModal: React.FC<InstallersModalProps> = ({ isOpen, onClos
                 <a
                   href={item.downloadUrl}
                   download={item.name}
-                  className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-white bg-[#0a84ff] hover:bg-[#0071e3] rounded-md shadow-sm shadow-blue-500/20 transition-colors"
+                  className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-md shadow-sm transition-colors ${
+                    item.format === '.tar.gz' && item.platform === 'all'
+                      ? 'bg-purple-600 hover:bg-purple-500 text-white shadow-purple-500/20'
+                      : 'bg-[#0a84ff] hover:bg-[#0071e3] text-white shadow-blue-500/20'
+                  }`}
                 >
                   <Download className="w-3.5 h-3.5" />
-                  <span>Download {item.format}</span>
+                  <span>
+                    {item.format === '.tar.gz' && item.platform === 'all'
+                      ? 'Download All'
+                      : `Download ${item.format}`}
+                  </span>
                 </a>
               </div>
             </div>
@@ -306,7 +383,9 @@ export const InstallersModal: React.FC<InstallersModalProps> = ({ isOpen, onClos
         <div className="px-5 py-3 border-t border-[#212433] bg-[#171822] flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-[11px] text-slate-400">
           <div className="flex items-center gap-2">
             <ShieldCheck className="w-4 h-4 text-emerald-400" />
-            <span>Files located in <code>/Installers</code> directory and verified with SHA-256</span>
+            <span>
+              All installers stored in <code>/Installers/v1.1</code> and verified with SHA-256
+            </span>
           </div>
           <button
             onClick={onClose}

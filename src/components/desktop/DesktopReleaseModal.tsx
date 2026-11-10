@@ -30,7 +30,7 @@ export const DesktopReleaseModal: React.FC<DesktopReleaseModalProps> = ({ isOpen
     setTimeout(() => setCopiedIndex(null), 2000);
   };
 
-  const gitTagCommand = 'git tag v1.0.0 && git push origin v1.0.0';
+  const gitTagCommand = 'git tag v1.1.0 && git push origin v1.1.0';
   const buildCommand = 'npm run package:win';
 
   return (
@@ -45,7 +45,7 @@ export const DesktopReleaseModal: React.FC<DesktopReleaseModalProps> = ({ isOpen
             <div>
               <div className="flex items-center gap-2">
                 <h2 className="text-sm font-bold text-white tracking-tight">
-                  AetherCut Studio · Version 1.0 (.exe)
+                  AetherCut Studio · Version 1.1 (.exe)
                 </h2>
                 <span className="px-1.5 py-0.5 rounded text-[10px] font-mono bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
                   Ready for GitHub
@@ -74,10 +74,10 @@ export const DesktopReleaseModal: React.FC<DesktopReleaseModalProps> = ({ isOpen
               </div>
               <div>
                 <div className="font-mono text-xs font-bold text-white">
-                  AetherCut-Studio-Setup-1.0.0.exe
+                  AetherCut-Studio-Setup-1.1.0.exe
                 </div>
                 <div className="text-[11px] text-slate-400 mt-0.5 flex flex-wrap items-center gap-x-2 gap-y-0.5 font-sans">
-                  <span>Version 1.0 (v1.0.0)</span>
+                  <span>Version 1.1 (v1.1.0)</span>
                   <span>·</span>
                   <span>Windows 10 / 11 (x64)</span>
                   <span>·</span>

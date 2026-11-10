@@ -1,7 +1,7 @@
 {
   "name": "aethercut-studio",
   "private": true,
-  "version": "1.0.0",
+  "version": "1.1.0",
   "type": "module",
   "main": "electron/main.cjs",
   "scripts": {
@@ -55,7 +55,7 @@
           ]
         }
       ],
-      "artifactName": "AetherCut-Studio-Setup-1.0.0.exe"
+      "artifactName": "AetherCut-Studio-Setup-1.1.0.exe"
     },
     "nsis": {
       "oneClick": false,

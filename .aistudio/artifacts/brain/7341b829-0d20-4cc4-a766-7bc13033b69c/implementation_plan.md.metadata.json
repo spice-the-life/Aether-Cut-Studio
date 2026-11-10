@@ -1,6 +1,6 @@
 {
-  "summary":  "Implementation plan to create the Installers folder containing Windows .exe and macOS .app/.dmg packages across Version 1.0 and Version 0.9 Beta, paired with an in-app 1-click Installers download browser.",
-  "updatedAt":  "2026-11-09T23:50:56.069756838Z",
+  "summary":  "Implementation plan for Version 1.1 (v1.1.0) release containing .dmg, .app, and .exe installer packages, an all-in-one bundled archive, and an updated in-app download browser.",
+  "updatedAt":  "2026-11-10T00:01:55.768063791Z",
   "requestFeedback":  true,
   "userFacing":  true
 }
