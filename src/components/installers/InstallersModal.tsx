@@ -29,7 +29,7 @@ interface InstallerItem {
   name: string;
   version: '1.1' | '1.0' | '0.9-beta';
   platform: 'windows' | 'macos' | 'all';
-  format: '.exe' | '.dmg' | '.app' | '.tar.gz';
+  format: '.exe' | '.dmg' | '.app' | '.tar.gz' | '.bat';
   size: string;
   desc: string;
   relPath: string;
@@ -41,17 +41,30 @@ interface InstallerItem {
 const INSTALLER_ITEMS: InstallerItem[] = [
   // Version 1.1 (New Release)
   {
+    id: 'win-launcher-v11',
+    name: 'AetherCut-Studio-Launcher.bat',
+    version: '1.1',
+    platform: 'windows',
+    format: '.bat',
+    size: '1.2 KB',
+    desc: 'Instant 1-Click Native Desktop Launcher for Windows 10 & 11 (Runs standalone with no setup errors)',
+    relPath: 'Installers/v1.1/AetherCut-Studio-Launcher.bat',
+    downloadUrl: '/installers/v1.1/AetherCut-Studio-Launcher.bat',
+    tag: 'Instant Run (Windows)',
+    tagColor: 'bg-emerald-500/25 text-emerald-300 border-emerald-500/40',
+  },
+  {
     id: 'win-v11',
     name: 'AetherCut-Studio-Setup-1.1.0.exe',
     version: '1.1',
     platform: 'windows',
     format: '.exe',
-    size: '64.3 MB',
-    desc: 'Windows 10 / 11 (64-bit) NSIS setup wizard with Desktop & Start Menu shortcuts',
+    size: '176 MB (Via GitHub CI)',
+    desc: 'Windows 10 / 11 NSIS setup wizard (Requires GitHub Actions windows-latest runner to build PE binaries)',
     relPath: 'Installers/v1.1/AetherCut-Studio-Setup-1.1.0.exe',
     downloadUrl: '/installers/v1.1/AetherCut-Studio-Setup-1.1.0.exe',
-    tag: 'v1.1 Latest',
-    tagColor: 'bg-emerald-500/20 text-emerald-400 border-emerald-500/30',
+    tag: 'GitHub Release',
+    tagColor: 'bg-blue-500/20 text-blue-300 border-blue-500/30',
   },
   {
     id: 'mac-dmg-v11',
