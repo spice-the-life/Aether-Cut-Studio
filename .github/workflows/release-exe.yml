@@ -1,10 +1,15 @@
-name: Build Windows .exe (Version 1.0)
+name: Build & Release Windows .exe (Version 1.1)
 
 on:
   push:
     tags:
       - 'v*'
   workflow_dispatch:
+    inputs:
+      release_version:
+        description: 'Release Version Tag (e.g. v1.1.0)'
+        required: true
+        default: 'v1.1.0'
 
 permissions:
   contents: write
@@ -29,35 +34,39 @@ jobs:
       - name: Build Web Application
         run: npm run build
 
-      - name: Package Windows .exe Installer
+      - name: Package Windows .exe Installer with Electron Builder
         run: npx electron-builder --win nsis
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Create GitHub Release (Version 1.0)
+      - name: Publish to GitHub Releases
         uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/') || github.event_name == 'workflow_dispatch'
         with:
-          name: 'AetherCut Studio Version 1.0'
-          tag_name: ${{ github.ref_name || 'v1.0.0' }}
+          name: 'AetherCut Studio Version 1.1 (Windows .exe)'
+          tag_name: ${{ inputs.release_version || github.ref_name || 'v1.1.0' }}
           draft: false
           prerelease: false
           body: |
-            ## AetherCut Studio - Version 1.0 Release
-            
-            Welcome to the official Windows desktop release of **AetherCut Studio Version 1.0**.
+            ## AetherCut Studio - Version 1.1 Official Windows Release
+
+            Welcome to the official Windows desktop release of **AetherCut Studio Version 1.1**.
 
             ### 🚀 Highlights & Features
-            - **Apple Final Cut Pro Aesthetic**: Dark titanium interface with authentic traffic lights and central rounded LCD timecode cockpit.
-            - **Magnetic & Traditional Track Timeline**: Numbered track lanes with dual-zone clips (filmstrip preview + audio waveform).
+            - **Native 64-bit Windows Executable**: High-performance desktop application with full hardware acceleration.
+            - **Apple Final Cut Pro Aesthetic**: Dark titanium interface with traffic lights and central LCD timecode cockpit.
+            - **Magnetic & Traditional Track Timeline**: Dual-zone clips with filmstrip preview and high-fidelity audio waveform.
             - **Draggable Volume Rubberbands**: Real-time interactive audio level adjustment directly on timeline clips.
-            - **Node-Based Compositing & Color Grade**: Full visual node graph pipeline with chroma keying, LUT-style controls, and film grain.
-            - **High Performance**: Native 64-bit Windows desktop app with hardware-accelerated WebGL playback.
+            - **Node-Based Compositing & Color Grade**: Visual node graph pipeline with chroma keying and LUT filters.
+            - **Instant Setup Wizard**: Installs cleanly into `Program Files` or `AppData` with Desktop and Start Menu shortcuts.
 
-            ### 💾 Installation (Windows x64)
-            1. Download `AetherCut-Studio-Setup-1.0.0.exe` below.
-            2. Run the installer and follow the on-screen setup prompts.
+            ### 💾 Windows Installation
+            1. Download **`AetherCut-Studio-Setup-1.1.0.exe`** from Assets below.
+            2. Run the installer and choose your preferred shortcuts.
             3. Launch **AetherCut Studio** from your Desktop or Start Menu.
           files: |
             release/*.exe
             release/*.exe.blockmap
+            Installers/v1.1/*.exe
+            Installers/v1.1/*.bat
+            Installers/v1.1/*.dmg

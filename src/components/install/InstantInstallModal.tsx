@@ -11,6 +11,7 @@ import {
   Laptop,
   Check,
   Copy,
+  ExternalLink,
 } from 'lucide-react';
 
 interface InstantInstallModalProps {
@@ -137,17 +138,65 @@ export const InstantInstallModal: React.FC<InstantInstallModalProps> = ({
                   </div>
                 </div>
 
-                <button
-                  onClick={handleInstallClick}
-                  className="w-full flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-bold text-white bg-gradient-to-r from-[#0a84ff] to-[#0071e3] hover:from-[#1a8cff] hover:to-[#007bf0] rounded-xl shadow-lg shadow-blue-500/25 transition-all cursor-pointer mt-1"
-                >
-                  <Zap className="w-4 h-4 fill-current" />
-                  <span>Install AetherCut Studio Now</span>
-                  <ArrowRight className="w-4 h-4" />
-                </button>
+                {deferredPrompt ? (
+                  <button
+                    onClick={handleInstallClick}
+                    className="w-full flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-bold text-white bg-gradient-to-r from-[#0a84ff] to-[#0071e3] hover:from-[#1a8cff] hover:to-[#007bf0] rounded-xl shadow-lg shadow-blue-500/25 transition-all cursor-pointer mt-1"
+                  >
+                    <Zap className="w-4 h-4 fill-current text-yellow-300" />
+                    <span>Click Here to Install Now</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </button>
+                ) : (
+                  <div className="flex flex-col gap-2 mt-1">
+                    <a
+                      href="https://ais-pre-2qvmmu72gwpzslfpemhobj-38638488375.us-east1.run.app"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="w-full flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-bold text-white bg-gradient-to-r from-[#0a84ff] to-[#0071e3] hover:from-[#1a8cff] hover:to-[#007bf0] rounded-xl shadow-lg shadow-blue-500/25 transition-all cursor-pointer text-center"
+                    >
+                      <ExternalLink className="w-4 h-4" />
+                      <span>Open Full App & Click Install (💻)</span>
+                    </a>
+                    <p className="text-[11px] text-slate-400 text-center">
+                      (In Chrome or Edge, click the <strong>💻 Install</strong> icon at the right of the address bar)
+                    </p>
+                  </div>
+                )}
               </div>
 
-              {/* Option 2: 1-Click Desktop Launcher (.bat) */}
+              {/* Option 2: Windows Setup Installer (.exe) - For users who prefer .exe */}
+              <div className="p-3.5 rounded-xl bg-[#0f1118] border border-[#222533] flex items-center justify-between gap-3">
+                <div className="flex items-center gap-2.5 min-w-0">
+                  <div className="p-2 rounded-lg bg-blue-500/15 text-blue-400 border border-blue-500/30 shrink-0">
+                    <Monitor className="w-4 h-4" />
+                  </div>
+                  <div className="min-w-0">
+                    <div className="flex items-center gap-1.5">
+                      <span className="font-mono text-xs font-bold text-white truncate">
+                        AetherCut-Studio-Setup-1.1.0.exe
+                      </span>
+                      <span className="px-1.5 py-0.2 rounded text-[10px] font-mono bg-[#1c1e2a] text-blue-300 border border-[#2b2e40]">
+                        66.5 MB
+                      </span>
+                    </div>
+                    <p className="text-[11px] text-slate-400 mt-0.5 line-clamp-1">
+                      Windows 10 / 11 64-bit setup installer (Also available in GitHub repository)
+                    </p>
+                  </div>
+                </div>
+
+                <a
+                  href="/installers/v1.1/AetherCut-Studio-Setup-1.1.0.exe"
+                  download="AetherCut-Studio-Setup-1.1.0.exe"
+                  className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-white bg-blue-600 hover:bg-blue-500 border border-blue-500/50 rounded-lg transition-colors shrink-0 shadow-sm"
+                >
+                  <Download className="w-3.5 h-3.5" />
+                  <span>Download .exe</span>
+                </a>
+              </div>
+
+              {/* Option 3: 1-Click Desktop Launcher (.bat) */}
               <div className="p-3.5 rounded-xl bg-[#0f1118] border border-[#222533] flex items-center justify-between gap-3">
                 <div className="flex items-center gap-2.5 min-w-0">
                   <div className="p-2 rounded-lg bg-amber-500/15 text-amber-400 border border-amber-500/30 shrink-0">
@@ -163,7 +212,7 @@ export const InstantInstallModal: React.FC<InstantInstallModalProps> = ({
                       </span>
                     </div>
                     <p className="text-[11px] text-slate-400 mt-0.5 line-clamp-1">
-                      Double-click to open in native desktop window immediately
+                      Instant 1-click runner: double-click to launch standalone desktop app
                     </p>
                   </div>
                 </div>
