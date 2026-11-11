@@ -1,4 +1,4 @@
-name: Build & Release Windows .exe (Version 1.1)
+name: Build & Release Windows .exe (Version 1.2)
 
 on:
   push:
@@ -7,9 +7,9 @@ on:
   workflow_dispatch:
     inputs:
       release_version:
-        description: 'Release Version Tag (e.g. v1.1.0)'
+        description: 'Release Version Tag (e.g. v1.2.0)'
         required: true
-        default: 'v1.1.0'
+        default: 'v1.2.0'
 
 permissions:
   contents: write
@@ -43,14 +43,14 @@ jobs:
         uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/') || github.event_name == 'workflow_dispatch'
         with:
-          name: 'AetherCut Studio Version 1.1 (Windows .exe)'
-          tag_name: ${{ inputs.release_version || github.ref_name || 'v1.1.0' }}
+          name: 'AetherCut Studio Version 1.2 (Windows .exe)'
+          tag_name: ${{ inputs.release_version || github.ref_name || 'v1.2.0' }}
           draft: false
           prerelease: false
           body: |
-            ## AetherCut Studio - Version 1.1 Official Windows Release
+            ## AetherCut Studio - Version 1.2 Official Windows Release
 
-            Welcome to the official Windows desktop release of **AetherCut Studio Version 1.1**.
+            Welcome to the official Windows desktop release of **AetherCut Studio Version 1.2**.
 
             ### 🚀 Highlights & Features
             - **Native 64-bit Windows Executable**: High-performance desktop application with full hardware acceleration.
@@ -61,12 +61,12 @@ jobs:
             - **Instant Setup Wizard**: Installs cleanly into `Program Files` or `AppData` with Desktop and Start Menu shortcuts.
 
             ### 💾 Windows Installation
-            1. Download **`AetherCut-Studio-Setup-1.1.0.exe`** from Assets below.
+            1. Download **`AetherCut-Studio-Setup-1.2.0.exe`** from Assets below.
             2. Run the installer and choose your preferred shortcuts.
             3. Launch **AetherCut Studio** from your Desktop or Start Menu.
           files: |
             release/*.exe
             release/*.exe.blockmap
-            Installers/v1.1/*.exe
-            Installers/v1.1/*.bat
-            Installers/v1.1/*.dmg
+            Installers/v1.2/*.exe
+            Installers/v1.2/*.bat
+            Installers/v1.2/*.dmg

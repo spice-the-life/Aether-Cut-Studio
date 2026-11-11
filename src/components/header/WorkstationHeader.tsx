@@ -235,6 +235,18 @@ export const WorkstationHeader: React.FC<WorkstationHeaderProps> = ({
           </button>
         </div>
 
+        {/* All Installers (.exe, .dmg, .app) */}
+        {onOpenInstallers && (
+          <button
+            onClick={onOpenInstallers}
+            className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 text-xs font-semibold text-slate-200 hover:text-white bg-[#1a1c26] hover:bg-[#222534] border border-[#2c3044] rounded-md transition-colors whitespace-nowrap shadow-xs cursor-pointer"
+            title="Browse All Official Release Files (.exe, .dmg, .app, .tar.gz)"
+          >
+            <FolderArchive className="w-3.5 h-3.5 text-emerald-400" />
+            <span>v1.2 Installers</span>
+          </button>
+        )}
+
         {/* Instant 1-Click Desktop Install Button */}
         {onOpenInstantInstall && (
           <button

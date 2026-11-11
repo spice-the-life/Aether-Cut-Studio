@@ -67,11 +67,11 @@ export const InstantInstallModal: React.FC<InstantInstallModalProps> = ({
                   Instant Desktop Install
                 </h2>
                 <span className="px-2 py-0.5 rounded text-[10px] font-mono bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
-                  Zero Setup
+                  Version 1.2 Release
                 </span>
               </div>
               <p className="text-xs text-slate-400 mt-0.5">
-                Instantly install AetherCut Studio to your PC or Mac in seconds
+                Instantly install AetherCut Studio v1.2 to your PC or Mac in seconds
               </p>
             </div>
           </div>
@@ -174,21 +174,21 @@ export const InstantInstallModal: React.FC<InstantInstallModalProps> = ({
                   <div className="min-w-0">
                     <div className="flex items-center gap-1.5">
                       <span className="font-mono text-xs font-bold text-white truncate">
-                        AetherCut-Studio-Setup-1.1.0.exe
+                        AetherCut-Studio-Setup-1.2.0.exe
                       </span>
                       <span className="px-1.5 py-0.2 rounded text-[10px] font-mono bg-[#1c1e2a] text-blue-300 border border-[#2b2e40]">
                         66.5 MB
                       </span>
                     </div>
                     <p className="text-[11px] text-slate-400 mt-0.5 line-clamp-1">
-                      Windows 10 / 11 64-bit setup installer (Also available in GitHub repository)
+                      Windows 10 / 11 64-bit setup installer (Version 1.2 Latest)
                     </p>
                   </div>
                 </div>
 
                 <a
-                  href="/installers/v1.1/AetherCut-Studio-Setup-1.1.0.exe"
-                  download="AetherCut-Studio-Setup-1.1.0.exe"
+                  href="/installers/v1.2/AetherCut-Studio-Setup-1.2.0.exe"
+                  download="AetherCut-Studio-Setup-1.2.0.exe"
                   className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-white bg-blue-600 hover:bg-blue-500 border border-blue-500/50 rounded-lg transition-colors shrink-0 shadow-sm"
                 >
                   <Download className="w-3.5 h-3.5" />
@@ -218,7 +218,7 @@ export const InstantInstallModal: React.FC<InstantInstallModalProps> = ({
                 </div>
 
                 <a
-                  href="/installers/v1.1/AetherCut-Studio-Launcher.bat"
+                  href="/installers/v1.2/AetherCut-Studio-Launcher.bat"
                   download="AetherCut-Studio-Launcher.bat"
                   className="flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold text-slate-200 hover:text-white bg-[#1e2130] hover:bg-[#282c40] border border-[#30354c] rounded-lg transition-colors shrink-0"
                 >
