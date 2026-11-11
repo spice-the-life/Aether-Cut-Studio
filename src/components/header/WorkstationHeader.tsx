@@ -19,6 +19,7 @@ import {
   Palette,
   Keyboard,
   FolderArchive,
+  Zap,
 } from 'lucide-react';
 
 interface WorkstationHeaderProps {
@@ -35,6 +36,7 @@ interface WorkstationHeaderProps {
   onToggleInspector?: () => void;
   onOpenDesktopRelease?: () => void;
   onOpenInstallers?: () => void;
+  onOpenInstantInstall?: () => void;
 }
 
 export const WorkstationHeader: React.FC<WorkstationHeaderProps> = ({
@@ -51,6 +53,7 @@ export const WorkstationHeader: React.FC<WorkstationHeaderProps> = ({
   onToggleInspector,
   onOpenDesktopRelease,
   onOpenInstallers,
+  onOpenInstantInstall,
 }) => {
   return (
     <header className="flex items-center justify-between gap-4 px-4 py-1.5 border-b border-[#21232d] bg-[#14151b] select-none shrink-0 z-30 h-11">
@@ -232,27 +235,15 @@ export const WorkstationHeader: React.FC<WorkstationHeaderProps> = ({
           </button>
         </div>
 
-        {/* Windows .exe / GitHub Release (Version 1.1) */}
-        {onOpenDesktopRelease && (
+        {/* Instant 1-Click Desktop Install Button */}
+        {onOpenInstantInstall && (
           <button
-            onClick={onOpenDesktopRelease}
-            className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 text-xs font-semibold text-slate-200 hover:text-white bg-[#1a1c26] hover:bg-[#222534] border border-[#2c3044] rounded-md transition-colors whitespace-nowrap shadow-xs"
-            title="AetherCut Studio Version 1.1 Release"
+            onClick={onOpenInstantInstall}
+            className="flex items-center gap-1.5 px-3 py-1 text-xs font-bold text-white bg-gradient-to-r from-[#0a84ff] to-[#0071e3] hover:from-[#1a8cff] hover:to-[#007bf0] border border-blue-400/30 rounded-md transition-all whitespace-nowrap shadow-sm shadow-blue-500/20 cursor-pointer"
+            title="Install AetherCut Studio Instantly to your Desktop"
           >
-            <Monitor className="w-3.5 h-3.5 text-[#0a84ff]" />
-            <span>v1.1 .exe</span>
-          </button>
-        )}
-
-        {/* Installers & Releases Folder (.dmg, .app, .exe) */}
-        {onOpenInstallers && (
-          <button
-            onClick={onOpenInstallers}
-            className="flex items-center gap-1.5 px-2.5 py-1 text-xs font-semibold text-white bg-[#1a2e22] hover:bg-[#203a2b] border border-emerald-600/50 rounded-md transition-colors whitespace-nowrap shadow-xs"
-            title="Open Installers & Releases (.dmg, .app, .exe, and Complete Bundle)"
-          >
-            <FolderArchive className="w-3.5 h-3.5 text-emerald-400" />
-            <span>v1.1 Installers</span>
+            <Zap className="w-3.5 h-3.5 fill-current text-yellow-300" />
+            <span>Install App</span>
           </button>
         )}
 

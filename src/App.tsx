@@ -32,6 +32,7 @@ import { DeliverModal } from './components/deliver/DeliverModal';
 import { ShortcutsModal } from './components/shortcuts/ShortcutsModal';
 import { DesktopReleaseModal } from './components/desktop/DesktopReleaseModal';
 import { InstallersModal } from './components/installers/InstallersModal';
+import { InstantInstallModal } from './components/install/InstantInstallModal';
 
 export default function App() {
   // Active Workspace: Edit / Transitions / Nodes / Color / Audio / Deliver
@@ -279,6 +280,32 @@ export default function App() {
   const [isShortcutsOpen, setIsShortcutsOpen] = useState(false);
   const [isDesktopReleaseOpen, setIsDesktopReleaseOpen] = useState(false);
   const [isInstallersOpen, setIsInstallersOpen] = useState(false);
+  const [isInstantInstallOpen, setIsInstantInstallOpen] = useState(false);
+  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
+  const [isInstalled, setIsInstalled] = useState(false);
+
+  // PWA beforeinstallprompt listener
+  useEffect(() => {
+    const handleBeforeInstallPrompt = (e: Event) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+    };
+    const handleAppInstalled = () => {
+      setIsInstalled(true);
+      setDeferredPrompt(null);
+    };
+    window.addEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+    window.addEventListener('appinstalled', handleAppInstalled);
+
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+      setIsInstalled(true);
+    }
+
+    return () => {
+      window.removeEventListener('beforeinstallprompt', handleBeforeInstallPrompt);
+      window.removeEventListener('appinstalled', handleAppInstalled);
+    };
+  }, []);
 
   // Viewer Canvases
   const viewer1CanvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -729,6 +756,7 @@ export default function App() {
         onOpenShortcuts={() => setIsShortcutsOpen(true)}
         onOpenDesktopRelease={() => setIsDesktopReleaseOpen(true)}
         onOpenInstallers={() => setIsInstallersOpen(true)}
+        onOpenInstantInstall={() => setIsInstantInstallOpen(true)}
         os={os}
         playhead={playhead}
         fps={24}
@@ -1024,6 +1052,14 @@ export default function App() {
       <InstallersModal
         isOpen={isInstallersOpen}
         onClose={() => setIsInstallersOpen(false)}
+      />
+
+      {/* Instant 1-Click Desktop Install Modal */}
+      <InstantInstallModal
+        isOpen={isInstantInstallOpen}
+        onClose={() => setIsInstantInstallOpen(false)}
+        deferredPrompt={deferredPrompt}
+        isInstalled={isInstalled}
       />
     </div>
   );

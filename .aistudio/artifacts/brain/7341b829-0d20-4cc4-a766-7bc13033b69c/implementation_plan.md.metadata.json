@@ -1,0 +1,6 @@
+{
+  "summary":  "Implementation plan to fix the Windows executable failure by compiling a genuine 64-bit Windows PE NSIS setup wizard installer (.exe) directly in the app, replacing the invalid binary stub.",
+  "updatedAt":  "2026-11-10T14:42:18.681416916Z",
+  "requestFeedback":  true,
+  "userFacing":  true
+}

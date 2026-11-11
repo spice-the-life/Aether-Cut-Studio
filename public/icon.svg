@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1a1c29" />
+      <stop offset="50%" stop-color="#10121a" />
+      <stop offset="100%" stop-color="#090a10" />
+    </linearGradient>
+    <linearGradient id="glow" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0a84ff" />
+      <stop offset="50%" stop-color="#5e5ce6" />
+      <stop offset="100%" stop-color="#30d158" />
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#0a84ff" flood-opacity="0.35" />
+    </filter>
+  </defs>
+
+  <!-- Rounded Squircle Base -->
+  <rect x="24" y="24" width="464" height="464" rx="108" fill="url(#bg)" stroke="#2b2f45" stroke-width="6" />
+
+  <!-- Aether Cut Hero Stylized Film Blade / Play Chevron -->
+  <g filter="url(#shadow)">
+    <!-- Node / Film Ribbon -->
+    <path d="M150 136 L310 256 L150 376 Z" fill="url(#glow)" />
+    <!-- Magnetic Cut Accent Line -->
+    <path d="M290 120 L370 256 L290 392" stroke="#ffffff" stroke-width="28" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity="0.95" />
+    <circle cx="370" cy="256" r="18" fill="#30d158" />
+  </g>
+</svg>
