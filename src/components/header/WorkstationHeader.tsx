@@ -235,6 +235,17 @@ export const WorkstationHeader: React.FC<WorkstationHeaderProps> = ({
           </button>
         </div>
 
+        {/* Direct Download Windows .exe (Version 1.2) */}
+        <a
+          href="/installers/v1.2/AetherCut-Studio-Setup-1.2.0.exe"
+          download="AetherCut-Studio-Setup-1.2.0.exe"
+          className="flex items-center gap-1.5 px-2.5 py-1 text-xs font-bold text-white bg-blue-600 hover:bg-blue-500 border border-blue-400/40 rounded-md transition-colors whitespace-nowrap shadow-xs cursor-pointer"
+          title="Direct Download Windows 10/11 .exe Installer (Version 1.2 · 66.5 MB)"
+        >
+          <Monitor className="w-3.5 h-3.5 text-blue-200" />
+          <span>v1.2 .exe</span>
+        </a>
+
         {/* All Installers (.exe, .dmg, .app) */}
         {onOpenInstallers && (
           <button
