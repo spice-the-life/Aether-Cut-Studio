@@ -69,6 +69,6 @@ jobs:
           files: |
             release/*.exe
             release/*.exe.blockmap
-            Installers/v1.3/*.exe
-            Installers/v1.3/*.bat
-            Installers/v1.3/*.dmg
+            Installers/v1.3/AetherCut-Studio-Launcher.bat
+            Installers/v1.3/AetherCut-Studio-1.3.0.dmg
+            Installers/v1.3/AetherCut-Studio-1.3.0-macOS.app.tar.gz
