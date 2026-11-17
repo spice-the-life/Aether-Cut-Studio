@@ -3,31 +3,36 @@ import {
   CompositorNode,
   TimelineClip,
   TimelineTransition,
+  SubtitleCue,
+  SubtitleStyle,
   MediaItem,
   TransitionType,
 } from '../../types/editor';
 import {
   Sliders,
-  Maximize,
   Volume2,
   Film,
-  Type,
   Eye,
   EyeOff,
-  RotateCcw,
   Sparkles,
   Trash2,
+  Captions,
 } from 'lucide-react';
 
 interface InspectorPanelProps {
   selectedNode: CompositorNode | null;
   selectedClip: TimelineClip | null;
   selectedTransition: TimelineTransition | null;
+  selectedSubtitle?: SubtitleCue | null;
+  subtitleStyle?: SubtitleStyle;
   selectedMedia: MediaItem | null;
   onUpdateNodeData: (nodeId: string, data: Partial<CompositorNode['data']>) => void;
   onUpdateClip: (clipId: string, updates: Partial<TimelineClip>) => void;
   onUpdateTransition: (transitionId: string, updates: Partial<TimelineTransition>) => void;
   onDeleteTransition: (transitionId: string) => void;
+  onUpdateSubtitle?: (subtitleId: string, updates: Partial<SubtitleCue>) => void;
+  onUpdateSubtitleStyle?: (updates: Partial<SubtitleStyle>) => void;
+  onDeleteSubtitle?: (subtitleId: string) => void;
   onToggleNodeBypass: (nodeId: string) => void;
 }
 
@@ -35,11 +40,16 @@ export const InspectorPanel: React.FC<InspectorPanelProps> = ({
   selectedNode,
   selectedClip,
   selectedTransition,
+  selectedSubtitle,
+  subtitleStyle,
   selectedMedia,
   onUpdateNodeData,
   onUpdateClip,
   onUpdateTransition,
   onDeleteTransition,
+  onUpdateSubtitle,
+  onUpdateSubtitleStyle,
+  onDeleteSubtitle,
   onToggleNodeBypass,
 }) => {
   return (
@@ -68,8 +78,211 @@ export const InspectorPanel: React.FC<InspectorPanelProps> = ({
       </div>
 
       <div className="p-3.5 space-y-5">
-        {/* CASE 1: TRANSITION INSPECTOR */}
-        {selectedTransition ? (
+        {/* CASE 0: SUBTITLE CUE INSPECTOR */}
+        {selectedSubtitle ? (
+          <div className="space-y-4">
+            <div className="flex items-center justify-between pb-3 border-b border-[#242738]">
+              <div className="flex items-center gap-2">
+                <Captions className="w-4 h-4 text-cyan-400" />
+                <h3 className="text-xs font-bold text-white uppercase tracking-wider">
+                  SUBTITLE CUE #{selectedSubtitle.index}
+                </h3>
+              </div>
+              {onDeleteSubtitle && (
+                <button
+                  onClick={() => onDeleteSubtitle(selectedSubtitle.id)}
+                  className="text-slate-400 hover:text-red-400 p-1 rounded hover:bg-[#202334]"
+                  title="Delete Subtitle Cue"
+                >
+                  <Trash2 className="w-3.5 h-3.5" />
+                </button>
+              )}
+            </div>
+
+            <div>
+              <label className="text-xs text-slate-400 block mb-1.5 font-medium">Caption Text</label>
+              <textarea
+                rows={3}
+                value={selectedSubtitle.text}
+                onChange={(e) =>
+                  onUpdateSubtitle?.(selectedSubtitle.id, { text: e.target.value })
+                }
+                className="w-full px-3 py-2 bg-[#1a1d2b] border border-[#2e3348] rounded-lg text-xs text-white focus:outline-none focus:border-cyan-500"
+              />
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="text-xs text-slate-400 block mb-1">Start (s)</label>
+                <input
+                  type="number"
+                  step={0.1}
+                  min={0}
+                  value={selectedSubtitle.start}
+                  onChange={(e) => {
+                    const start = Math.max(0, parseFloat(e.target.value) || 0);
+                    onUpdateSubtitle?.(selectedSubtitle.id, {
+                      start,
+                      end: Math.max(start + 0.25, selectedSubtitle.end),
+                    });
+                  }}
+                  className="w-full px-2.5 py-1.5 bg-[#1a1d2b] border border-[#2e3348] rounded-lg text-xs font-mono text-white tabular-nums"
+                />
+              </div>
+              <div>
+                <label className="text-xs text-slate-400 block mb-1">End (s)</label>
+                <input
+                  type="number"
+                  step={0.1}
+                  min={selectedSubtitle.start + 0.25}
+                  value={selectedSubtitle.end}
+                  onChange={(e) => {
+                    const end = Math.max(
+                      selectedSubtitle.start + 0.25,
+                      parseFloat(e.target.value) || 0
+                    );
+                    onUpdateSubtitle?.(selectedSubtitle.id, { end });
+                  }}
+                  className="w-full px-2.5 py-1.5 bg-[#1a1d2b] border border-[#2e3348] rounded-lg text-xs font-mono text-white tabular-nums"
+                />
+              </div>
+            </div>
+
+            {subtitleStyle && onUpdateSubtitleStyle && (
+              <div className="pt-4 border-t border-[#242738] space-y-3.5">
+                <div className="text-[11px] font-bold text-slate-300 uppercase tracking-wider">
+                  Caption Typography &amp; Background
+                </div>
+
+                <div>
+                  <label className="text-xs text-slate-400 block mb-1">Font Family</label>
+                  <select
+                    value={subtitleStyle.fontFamily}
+                    onChange={(e) => onUpdateSubtitleStyle({ fontFamily: e.target.value })}
+                    className="w-full px-2.5 py-1.5 bg-[#1a1d2b] border border-[#2e3348] rounded-lg text-xs text-white"
+                  >
+                    <option value='"Plus Jakarta Sans", Inter, system-ui, sans-serif'>Plus Jakarta Sans</option>
+                    <option value='Inter, system-ui, sans-serif'>Inter Clean</option>
+                    <option value='"JetBrains Mono", monospace'>JetBrains Mono</option>
+                    <option value='Georgia, serif'>Georgia Serif</option>
+                    <option value='Impact, "Arial Black", sans-serif'>Bold Title Display</option>
+                  </select>
+                </div>
+
+                <div>
+                  <div className="flex justify-between text-xs mb-1">
+                    <span className="text-slate-400">Font Size</span>
+                    <span className="font-mono text-cyan-400 tabular-nums">{subtitleStyle.fontSize}px</span>
+                  </div>
+                  <input
+                    type="range"
+                    min={18}
+                    max={52}
+                    step={2}
+                    value={subtitleStyle.fontSize}
+                    onChange={(e) =>
+                      onUpdateSubtitleStyle({ fontSize: parseInt(e.target.value, 10) })
+                    }
+                    className="w-full h-1.5 bg-[#272b3b] rounded appearance-none cursor-pointer accent-cyan-400"
+                  />
+                </div>
+
+                <div className="flex items-center justify-between">
+                  <span className="text-xs text-slate-400">Text Color</span>
+                  <div className="flex items-center gap-1.5">
+                    {['#ffffff', '#fde047', '#67e8f9', '#fca5a5'].map((c) => (
+                      <button
+                        key={c}
+                        onClick={() => onUpdateSubtitleStyle({ color: c })}
+                        style={{ backgroundColor: c }}
+                        className={`w-4 h-4 rounded-full border ${
+                          subtitleStyle.color === c ? 'border-white ring-1 ring-cyan-400' : 'border-slate-600'
+                        }`}
+                        title={c}
+                      />
+                    ))}
+                    <input
+                      type="color"
+                      value={subtitleStyle.color}
+                      onChange={(e) => onUpdateSubtitleStyle({ color: e.target.value })}
+                      className="w-6 h-6 rounded border border-[#3b3f54] cursor-pointer bg-transparent"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-2 gap-2">
+                  <div>
+                    <label className="text-xs text-slate-400 block mb-1">Position</label>
+                    <select
+                      value={subtitleStyle.position}
+                      onChange={(e) =>
+                        onUpdateSubtitleStyle({
+                          position: e.target.value as SubtitleStyle['position'],
+                        })
+                      }
+                      className="w-full px-2 py-1.5 bg-[#1a1d2b] border border-[#2e3348] rounded-lg text-xs text-white"
+                    >
+                      <option value="bottom">Bottom</option>
+                      <option value="center">Center</option>
+                      <option value="top">Top</option>
+                    </select>
+                  </div>
+
+                  <div>
+                    <label className="text-xs text-slate-400 block mb-1">Background</label>
+                    <select
+                      value={subtitleStyle.background}
+                      onChange={(e) =>
+                        onUpdateSubtitleStyle({
+                          background: e.target.value as SubtitleStyle['background'],
+                        })
+                      }
+                      className="w-full px-2 py-1.5 bg-[#1a1d2b] border border-[#2e3348] rounded-lg text-xs text-white"
+                    >
+                      <option value="box">Rounded Box</option>
+                      <option value="bar">Full Bar</option>
+                      <option value="shadow">Drop Shadow</option>
+                      <option value="none">Plain Text</option>
+                    </select>
+                  </div>
+                </div>
+
+                {(subtitleStyle.background === 'box' || subtitleStyle.background === 'bar') && (
+                  <div className="space-y-2.5 pt-1">
+                    <div className="flex items-center justify-between">
+                      <span className="text-xs text-slate-400">Bg Color</span>
+                      <input
+                        type="color"
+                        value={subtitleStyle.backgroundColor}
+                        onChange={(e) => onUpdateSubtitleStyle({ backgroundColor: e.target.value })}
+                        className="w-6 h-6 rounded border border-[#3b3f54] cursor-pointer bg-transparent"
+                      />
+                    </div>
+                    <div>
+                      <div className="flex justify-between text-xs mb-1">
+                        <span className="text-slate-400">Bg Opacity</span>
+                        <span className="font-mono text-cyan-400 tabular-nums">
+                          {Math.round(subtitleStyle.backgroundOpacity * 100)}%
+                        </span>
+                      </div>
+                      <input
+                        type="range"
+                        min={0.1}
+                        max={1}
+                        step={0.05}
+                        value={subtitleStyle.backgroundOpacity}
+                        onChange={(e) =>
+                          onUpdateSubtitleStyle({ backgroundOpacity: parseFloat(e.target.value) })
+                        }
+                        className="w-full h-1.5 bg-[#272b3b] rounded appearance-none cursor-pointer accent-cyan-400"
+                      />
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        ) : selectedTransition ? (
           <div className="space-y-5">
             <div className="flex items-center justify-between pb-3 border-b border-[#242738]">
               <div className="flex items-center gap-2">

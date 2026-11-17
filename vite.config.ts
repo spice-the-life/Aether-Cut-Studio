@@ -13,6 +13,7 @@ export default defineConfig(() => {
         registerType: 'autoUpdate',
         devOptions: {
           enabled: true,
+          type: 'module',
         },
         includeAssets: ['favicon.ico', 'icon.svg', 'apple-touch-icon.png'],
         manifest: {
@@ -46,6 +47,10 @@ export default defineConfig(() => {
               purpose: 'maskable',
             },
           ],
+        },
+        workbox: {
+          globPatterns: ['**/*.{js,css,html,ico,png,svg,woff,woff2}'],
+          globIgnores: ['installers/**', 'assets/aistudio/**'],
         },
       }),
     ],

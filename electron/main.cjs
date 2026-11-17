@@ -9,7 +9,7 @@ function createWindow() {
     height: 900,
     minWidth: 1024,
     minHeight: 680,
-    title: 'AetherCut Studio - Version 1.0',
+    title: 'AetherCut Studio - Version 1.3',
     backgroundColor: '#111217',
     autoHideMenuBar: true,
     webPreferences: {

@@ -1,4 +1,4 @@
-name: Build & Release Windows .exe (Version 1.2)
+name: Build & Release Windows .exe (Version 1.3)
 
 on:
   push:
@@ -7,9 +7,9 @@ on:
   workflow_dispatch:
     inputs:
       release_version:
-        description: 'Release Version Tag (e.g. v1.2.0)'
+        description: 'Release Version Tag (e.g. v1.3.0)'
         required: true
-        default: 'v1.2.0'
+        default: 'v1.3.0'
 
 permissions:
   contents: write
@@ -31,6 +31,9 @@ jobs:
       - name: Install Dependencies
         run: npm install
 
+      - name: Type-Check Codebase
+        run: npm run lint
+
       - name: Build Web Application
         run: npm run build
 
@@ -43,30 +46,29 @@ jobs:
         uses: softprops/action-gh-release@v2
         if: startsWith(github.ref, 'refs/tags/') || github.event_name == 'workflow_dispatch'
         with:
-          name: 'AetherCut Studio Version 1.2 (Windows .exe)'
-          tag_name: ${{ inputs.release_version || github.ref_name || 'v1.2.0' }}
+          name: 'AetherCut Studio Version 1.3 (Windows .exe)'
+          tag_name: ${{ inputs.release_version || github.ref_name || 'v1.3.0' }}
           draft: false
           prerelease: false
           body: |
-            ## AetherCut Studio - Version 1.2 Official Windows Release
+            ## AetherCut Studio - Version 1.3.0 Official Release
 
-            Welcome to the official Windows desktop release of **AetherCut Studio Version 1.2**.
+            Welcome to the official desktop release of **AetherCut Studio Version 1.3.0**.
 
-            ### 🚀 Highlights & Features
-            - **Native 64-bit Windows Executable**: High-performance desktop application with full hardware acceleration.
-            - **Apple Final Cut Pro Aesthetic**: Dark titanium interface with traffic lights and central LCD timecode cockpit.
-            - **Magnetic & Traditional Track Timeline**: Dual-zone clips with filmstrip preview and high-fidelity audio waveform.
-            - **Draggable Volume Rubberbands**: Real-time interactive audio level adjustment directly on timeline clips.
-            - **Node-Based Compositing & Color Grade**: Visual node graph pipeline with chroma keying and LUT filters.
-            - **Instant Setup Wizard**: Installs cleanly into `Program Files` or `AppData` with Desktop and Start Menu shortcuts.
+            ### Highlights & Features
+            - **AI Voiceover Studio**: Generate spoken audio from custom scripts or `S1` captions with selectable voices, 6 delivery styles, speed/pitch controls, multi-speaker dialogue casts, automatic `A1`/`A2` timeline insertion, `S1` subtitle synchronization, and single-sentence regeneration.
+            - **Subtitles & AI Captions Studio (`S1`)**: Integrated `SRT Editor`, `AI Subtitles`, `AI Voiceover`, `Subtitle Styling`, and `Speaker Management` tabs with `.srt` import/export and Gemini audio transcription.
+            - **1080p / 4K Export with Audio & Burn-In Subtitles**: Native-resolution rendering muxed with a 48kHz stereo offline audio mixdown and scaled burn-in captions.
+            - **Editing Reliability & Workspace Polish**: `.aethercut.json` project save/load with voiceover & media rehydration, IndexedDB autosave, multi-step Undo/Redo across edits and track controls, improved timeline clip/trim/waveform affordances, and persisted panel layouts.
+            - **Node-Based Compositing & Color Grade**: Visual node graph pipeline with chroma keying, film grain, blur, and LUT filters.
 
-            ### 💾 Windows Installation
-            1. Download **`AetherCut-Studio-Setup-1.2.0.exe`** from Assets below.
+            ### Windows Installation
+            1. Download **`AetherCut-Studio-Setup-1.3.0.exe`** from Assets below.
             2. Run the installer and choose your preferred shortcuts.
             3. Launch **AetherCut Studio** from your Desktop or Start Menu.
           files: |
             release/*.exe
             release/*.exe.blockmap
-            Installers/v1.2/*.exe
-            Installers/v1.2/*.bat
-            Installers/v1.2/*.dmg
+            Installers/v1.3/*.exe
+            Installers/v1.3/*.bat
+            Installers/v1.3/*.dmg

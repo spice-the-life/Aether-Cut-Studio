@@ -6,7 +6,7 @@ const os = require('os');
 const APP_URL = "https://ais-pre-2qvmmu72gwpzslfpemhobj-38638488375.us-east1.run.app";
 
 console.log("====================================================================");
-console.log("          AetherCut Studio - Version 1.2 Desktop Workstation");
+console.log("          AetherCut Studio - Version 1.3 Desktop Workstation");
 console.log("      Professional Video Editing & VFX Compositing Workstation");
 console.log("====================================================================");
 console.log("");
@@ -31,7 +31,7 @@ exec(cmd, (err) => {
   if (err) {
     console.error("Launch error:", err);
   } else {
-    console.log("[OK] AetherCut Studio Version 1.2 is running successfully!");
+    console.log("[OK] AetherCut Studio Version 1.3 is running successfully!");
   }
   setTimeout(() => process.exit(0), 1200);
 });

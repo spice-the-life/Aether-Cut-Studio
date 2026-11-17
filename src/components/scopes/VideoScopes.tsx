@@ -247,20 +247,39 @@ export const VideoScopes: React.FC<VideoScopesProps> = ({ sourceCanvasRef, isOpe
     return () => cancelAnimationFrame(animId);
   }, [isOpen, scopeType, sourceCanvasRef]);
 
+  useEffect(() => {
+    if (!isOpen) return;
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        e.preventDefault();
+        onClose();
+      }
+    };
+    window.addEventListener('keydown', handleKey);
+    return () => window.removeEventListener('keydown', handleKey);
+  }, [isOpen, onClose]);
+
   if (!isOpen) return null;
 
   return (
-    <div className="absolute top-12 right-4 z-40 w-96 rounded-xl border border-[#2b2e3a] bg-[#14161d]/95 p-3 shadow-2xl backdrop-blur-md">
+    <div
+      role="dialog"
+      aria-label="Video Scopes"
+      className="absolute top-12 right-4 z-40 w-96 rounded-xl border border-[#2b2e3a] bg-[#14161d]/95 p-3 shadow-2xl backdrop-blur-md"
+    >
       {/* Header */}
       <div className="flex items-center justify-between pb-2 border-b border-[#262833]">
         <div className="flex items-center gap-1">
           <span className="text-xs font-semibold tracking-wide text-white">VIDEO SCOPES</span>
         </div>
         {/* Scope Type Tabs */}
-        <div className="flex items-center gap-1 rounded bg-[#1c1e28] p-0.5">
+        <div role="tablist" aria-label="Scope mode" className="flex items-center gap-1 rounded bg-[#1c1e28] p-0.5">
           {(['waveform', 'parade', 'vectorscope', 'histogram'] as const).map((type) => (
             <button
               key={type}
+              type="button"
+              role="tab"
+              aria-selected={scopeType === type}
               onClick={() => setScopeType(type)}
               className={`rounded px-2 py-0.5 text-[11px] font-medium transition-colors ${
                 scopeType === type ? 'bg-[#3b82f6] text-white shadow-sm' : 'text-[#8e93a6] hover:text-white'
@@ -271,7 +290,9 @@ export const VideoScopes: React.FC<VideoScopesProps> = ({ sourceCanvasRef, isOpe
           ))}
         </div>
         <button
+          type="button"
           onClick={onClose}
+          aria-label="Close Video Scopes"
           className="text-xs text-[#8e93a6] hover:text-white px-1.5 py-0.5 rounded hover:bg-[#252835]"
         >
           ✕

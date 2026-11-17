@@ -216,7 +216,7 @@ class MediaManager {
           clearTimeout(timer);
           safeResolve({
             type: 'audio',
-            duration: Math.max(1, audio.duration || 20),
+            duration: Math.max(0.25, audio.duration || 20),
             resolution: { width: 0, height: 0 },
             sourceUrl: objectUrl,
             isUploaded: true,

@@ -64,6 +64,8 @@ export interface TimelineClip {
   muted?: boolean;
   locked?: boolean;
   nodeGraphId: string;
+  voiceoverGroupId?: string;
+  voiceoverSentenceId?: string;
 }
 
 export interface TimelineTrack {
@@ -74,6 +76,59 @@ export interface TimelineTrack {
   muted: boolean;
   solo: boolean;
   height: number;
+}
+
+export interface SubtitleCue {
+  id: string;
+  index: number;
+  start: number; // timeline seconds
+  end: number; // timeline seconds
+  text: string;
+  speakerId?: string;
+  voiceoverSentenceId?: string;
+}
+
+export interface SubtitleStyle {
+  enabled: boolean;
+  fontFamily: string;
+  fontSize: number;
+  position: 'bottom' | 'center' | 'top';
+  background: 'box' | 'bar' | 'shadow' | 'none';
+  backgroundColor: string;
+  backgroundOpacity: number; // 0 to 1
+  color: string;
+}
+
+export type VoiceName = 'Kore' | 'Charon' | 'Puck' | 'Fenrir' | 'Zephyr';
+
+export type VoiceStyle = 'Natural' | 'Energetic' | 'Calm' | 'Dramatic' | 'Robotic' | 'Narrator';
+
+export interface SpeakerProfile {
+  id: string;
+  name: string;
+  color: string;
+  voiceName: VoiceName;
+  style: VoiceStyle;
+  speed: number; // 0.6 to 1.8
+  pitch: number; // -6 to +6 semitones
+  customPersona: string;
+}
+
+export interface VoiceoverSentence {
+  id: string;
+  index: number;
+  speakerId: string;
+  text: string;
+  start: number;
+  duration: number;
+  rawAudioBase64?: string;
+  processedBlobUrl?: string;
+  waveformData?: number[];
+  clipId?: string;
+  subtitleId?: string;
+  mediaId?: string;
+  status: 'idle' | 'generating' | 'ready' | 'error';
+  error?: string;
 }
 
 // Node Compositing Graph System
@@ -218,3 +273,56 @@ export function formatTimecode(seconds: number, fps = 24): string {
   const pad = (n: number) => String(n).padStart(2, '0');
   return `${pad(h)}:${pad(m)}:${pad(s)}:${pad(frames)}`;
 }
+
+export type ToastLevel = 'error' | 'warning' | 'success' | 'info';
+
+export interface ToastNotification {
+  id: string;
+  level: ToastLevel;
+  title: string;
+  message?: string;
+  durationMs?: number;
+}
+
+export interface WorkspaceLayoutSettings {
+  browserWidth: number;
+  timelineHeight: number;
+  trackHeaderWidth: number;
+  subtitleLaneHeight: number;
+  trackHeights: Record<string, number>;
+  isBrowserOpen: boolean;
+  isInspectorOpen: boolean;
+}
+
+export interface SerializedMediaItem {
+  id: string;
+  name: string;
+  type: 'video' | 'audio' | 'image';
+  duration: number;
+  fps: number;
+  resolution: { width: number; height: number };
+  color: string;
+  thumbnailUrl: string;
+  sourceUrl: string;
+  tags: string[];
+  waveformData?: number[];
+  isUploaded?: boolean;
+  embeddedDataUrl?: string;
+}
+
+export interface ProjectBundle {
+  schemaVersion: 1;
+  projectName: string;
+  savedAt: string;
+  tracks: TimelineTrack[];
+  clips: TimelineClip[];
+  transitions: TimelineTransition[];
+  subtitles: SubtitleCue[];
+  subtitleStyle: SubtitleStyle;
+  speakers: SpeakerProfile[];
+  voiceoverSentences?: VoiceoverSentence[];
+  nodeGraph: NodeGraph;
+  playhead: PlayheadState;
+  mediaItems: SerializedMediaItem[];
+}
+
